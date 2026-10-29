@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smaily Book Store — Official International Digital Editions</title>
+
+  <style>
+    :root{
+      --bg1:#0f0f0f;
+      --bg2:#151515;
+
+      --card1:#161616;
+      --card2:#101010;
+
+      --text:#ffffff;
+      --muted:#bdbdbd;
+      --muted2:#9a9a9a;
+
+      --border: rgba(255,255,255,.12);
+      --shadow: 0 14px 30px rgba(0,0,0,.55);
+
+      --radius:18px;
+      --radiusSm:12px;
+
+      --btn:#ffffff;
+      --btnText:#0a0a0a;
+      --btnHover:#e8e8e8;
+
+      --btnDisabled:#2a2a2a;
+      --btnDisabledText:#8a8a8a;
+
+      --btnAltBg: transparent;
+      --btnAltText:#ffffff;
+      --btnAltBorder: rgba(255,255,255,.26);
+      --btnAltHover: rgba(255,255,255,.08);
+    }
+
+    /* Hard safety: never allow horizontal overflow */
+    html, body { width:100%; overflow-x:hidden; }
+    * { box-sizing:border-box; }
+
+    body{
+      margin:0;
+      font-family: Georgia, serif;
+      color:var(--text);
+      background: linear-gradient(180deg, var(--bg1), var(--bg2));
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Brand Header (single, fixed layout) */
+    header.brand{
+      padding: 46px 16px 18px;
+      text-align:center;
+    }
+    .brand-wrap{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:10px;
+      margin:0 auto;
+      max-width:980px;
+    }
+    .brand-logo{
+      width:128px;
+      height:auto;
+      display:block;
+      filter: drop-shadow(0 10px 22px rgba(0,0,0,.35));
+    }
+    .brand-name{
+      margin:0;
+      font-size:34px;
+      font-weight:800;
+      letter-spacing:1px;
+      line-height:1.08;
+    }
+    .brand-tagline{
+      margin:0;
+      font-size:16px;
+      color:var(--muted);
+      font-style:italic;
+      line-height:1.25;
+    }
+    .brand-sub{
+      margin-top:14px;
+      font-size:16px;
+      color:var(--muted2);
+      letter-spacing:.2px;
+      line-height:1.35;
+    }
+
+    /* Layout */
+    main.container{
+      max-width:980px;
+      margin:0 auto;
+      padding: 18px 16px 70px;
+      text-align:left;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:18px;
+    }
+    @media (min-width:860px){
+      .grid{ grid-template-columns:1fr 1fr; }
+    }
+
+    /* Card */
+    section.card{
+      background: linear-gradient(180deg, var(--card1), var(--card2));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px;
+      overflow:hidden;
+    }
+    section.card:hover{
+      transform: translateY(-2px);
+      transition: .18s ease;
+    }
+
+    /* Top row */
+    .book-top{
+      display:flex;
+      gap:14px;
+      align-items:flex-start;
+      min-width:0; /* allow shrink */
+    }
+
+    /* Cover */
+    img.cover{
+      width:140px;
+      height:auto;
+      border-radius: var(--radiusSm);
+      border: 1px solid var(--border);
+      background:#0b0b0b;
+      flex: 0 0 auto;
+      display:block;
+    }
+
+    /* Meta */
+    .book-meta{
+      flex: 1 1 auto;
+      min-width:0;
+      width:100%;
+    }
+    .title{
+      margin:0;
+      font-size:26px;
+      line-height:1.12;
+      letter-spacing:.2px;
+      overflow-wrap:anywhere;
+      word-break:break-word;
+    }
+    .edition{
+      margin:10px 0 0;
+      font-size:15px;
+      color:var(--muted);
+      line-height:1.55;
+      overflow-wrap:anywhere;
+      word-break:break-word;
+    }
+
+    /* Actions */
+    /* Wisdom of Light — intellectual panel */
+    .wisdom-panel{
+      margin-top:14px;
+      padding:14px 15px;
+      border:1px solid rgba(212,175,55,.24);
+      border-radius:var(--radiusSm);
+      background:rgba(10,35,66,.22);
+      line-height:1.7;
+      overflow-wrap:anywhere;
+      word-break:break-word;
+    }
+
+    .wisdom-panel h3{
+      margin:0 0 8px;
+      font-size:16px;
+      line-height:1.35;
+      color:#d4af37;
+    }
+
+    .wisdom-panel p{
+      margin:0 0 10px;
+      font-size:13px;
+      color:var(--muted);
+    }
+
+    .wisdom-panel p:last-child{
+      margin-bottom:0;
+    }
+
+    .wisdom-panel strong{
+      color:inherit;
+    }
+
+    .wisdom-layers{
+      padding-top:8px;
+      border-top:1px solid rgba(255,255,255,.08);
+    }
+
+    .wisdom-field{
+      font-size:12px !important;
+    }
+
+    .wisdom-question{
+      padding-top:8px;
+      border-top:1px solid rgba(255,255,255,.08);
+    }
+
+    .actions{
+      margin-top:14px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+    }
+
+    a.btn, span.btn{
+      display:inline-block;
+      padding: 10px 14px;
+      border-radius: var(--radiusSm);
+      border: 1px solid rgba(255,255,255,.18);
+      text-decoration:none;
+      font-weight:800;
+      letter-spacing:.2px;
+      font-size:14px;
+      line-height:1.1;
+      max-width:100%;
+      white-space:normal;
+      overflow-wrap:anywhere;
+    }
+
+    a.btn{
+      background: var(--btn);
+      color: var(--btnText);
+    }
+    a.btn:hover{
+      background: var(--btnHover);
+      transition: .18s ease;
+    }
+
+    a.btn.secondary{
+      background: var(--btnAltBg);
+      color: var(--btnAltText);
+      border: 1px solid var(--btnAltBorder);
+    }
+    a.btn.secondary:hover{
+      background: var(--btnAltHover);
+      transition: .18s ease;
+    }
+
+    span.btn.disabled{
+      pointer-events:none;
+      background: var(--btnDisabled);
+      color: var(--btnDisabledText);
+      border: 1px solid rgba(255,255,255,.08);
+    }
+
+    .tiny{
+      margin-top:10px;
+      font-size:12px;
+      color:#8f8f8f;
+      line-height:1.6;
+      overflow-wrap:anywhere;
+      word-break:break-word;
+    }
+
+    /* Mobile tuning */
+    @media (max-width:859px){
+      main.container{ text-align:left; }
+      .book-top{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+      img.cover{ width:100%; max-width: 420px; }
+      .title{ font-size:28px; }
+    }
+
+    footer{
+      margin-top: 22px;
+      padding: 26px 16px 42px;
+      color:#9b9b9b;
+      font-size:13px;
+      line-height:1.7;
+      text-align:center;
+    }
+    footer .tiny{ margin:0; }
+
+/* ===== CLEAN CARD + BUTTON LAYOUT (REPLACE BLOCK 246..337) ===== */
+
+/* remove accidental decorative pills */
+.card::before, .card::after,
+.book-top::before, .book-top::after,
+.actions::before, .actions::after{
+  content:none !important;
+  display:none !important;
+}
+
+/* card layout */
+.card{ overflow:hidden; }
+
+.book-top{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+.cover{
+  width:100%;
+  display:block;
+  border-radius:18px;
+  object-fit:cover;
+  background:#111;
+}
+
+.book-meta{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.book-meta .title{ margin:0; }
+
+.book-meta .edition{
+  margin:0;
+  line-height:1.5;
+  opacity:.9;
+}
+
+/* buttons: always full width, no side-by-side */
+.actions{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  margin-top:10px;
+}
+
+.actions > *{ width:100% !important; }
+
+.actions .btn,
+.actions .secondary,
+.actions .primary{
+  width:100%;
+  display:block;
+  box-sizing:border-box;
+  text-align:center;
+  padding:18px 16px;
+  line-height:1.3;
+}
+
+/* disabled button */
+.actions .disabled{
+  width:100%;
+  display:block;
+  text-align:center;
+  padding:18px 16px;
+  opacity:.55;
+  pointer-events:none;
+}
+
+/* prevent ugly word breaking */
+.btn{
+  white-space:normal;
+  word-break:break-word;
+}
+
+.tiny{ margin-top:10px; }
+
+/* ===== END CLEAN FIX ===== */
+</style>
+</head>
+
+<body>
+
+  <!-- ===== Brand (ONLY ONCE) ===== -->
+  <header class="brand">
+    <div class="brand-wrap">
+      <!-- IMPORTANT: this must exist in repo root -->
+      <img class="brand-logo" src="logo-green-transparent.png" alt="Smaily Book Store Logo" />
+      <h1 class="brand-name">Smaily Book Store</h1>
+      <p class="brand-tagline">Where Knowledge Meets Soul</p>
+      <div class="brand-sub">Official International Digital Editions</div>
+    </div>
+  </header>
+
+  <main class="container">
+<section id="payment-methods-notice" dir="rtl"
+style="max-width:480px;margin:24px auto;padding:22px;
+border-radius:18px;background:#f5f8f5;
+font-family:Tahoma,Arial,sans-serif;
+box-shadow:0 8px 28px rgba(0,0,0,.07)">
+
+<section id="launchCatalogPreview" dir="rtl"
+ style="max-width:1100px;margin:48px auto;padding:24px;
+ font-family:Tahoma,Arial,sans-serif">
+  <h2 style="color:#193d31;text-align:center">
+    کتاب‌های منتخب Smaily Book Store
+  </h2>
+  <p style="text-align:center;color:#66776c">
+    آثار در مرحله آماده‌سازی انتشار هستند.
+  </p>
+  <div style="display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+    gap:18px;margin-top:26px">
+
+    <article style="background:#fff;border:1px solid #e2e8e2;
+      border-radius:16px;padding:20px;box-shadow:0 6px 20px #00000009">
+      <h3 style="margin:0 0 12px;color:#193d31">Wisdom of Deylaman</h3>
+      <p style="color:#64736b;margin:0 0 14px">
+        نسخه در حال بررسی · 456 صفحه شناسایی‌شده
+      </p>
+      <span style="display:inline-block;background:#e9f3ed;
+        color:#276444;border-radius:20px;padding:7px 14px">
+        به‌زودی
+      </span>
+    </article>
+
+    <article style="background:#fff;border:1px solid #e2e8e2;
+      border-radius:16px;padding:20px;box-shadow:0 6px 20px #00000009">
+      <h3 style="margin:0 0 12px;color:#193d31">The Power of Simplicity</h3>
+      <p style="color:#64736b;margin:0 0 14px">
+        نسخه در حال بررسی · 156 صفحه شناسایی‌شده
+      </p>
+      <span style="display:inline-block;background:#e9f3ed;
+        color:#276444;border-radius:20px;padding:7px 14px">
+        به‌زودی
+      </span>
+    </article>
+
+    <article style="background:#fff;border:1px solid #e2e8e2;
+      border-radius:16px;padding:20px;box-shadow:0 6px 20px #00000009">
+      <h3 style="margin:0 0 12px;color:#193d31">Gilan, the Ancient Land</h3>
+      <p style="color:#64736b;margin:0 0 14px">
+        نسخه در حال بررسی · 265 صفحه شناسایی‌شده
+      </p>
+      <span style="display:inline-block;background:#e9f3ed;
+        color:#276444;border-radius:20px;padding:7px 14px">
+        به‌زودی
+      </span>
+    </article>
+
+    <article style="background:#fff;border:1px solid #e2e8e2;
+      border-radius:16px;padding:20px;box-shadow:0 6px 20px #00000009">
+      <h3 style="margin:0 0 12px;color:#193d31">The Wisdom of Light</h3>
+      <p style="color:#64736b;margin:0 0 14px">
+        نسخه در حال بررسی · 153 صفحه شناسایی‌شده
+      </p>
+      <span style="display:inline-block;background:#e9f3ed;
+        color:#276444;border-radius:20px;padding:7px 14px">
+        به‌زودی
+      </span>
+    </article>
+
+  </div>
+</section>
+<h2 style="text-align:center;font-size:19px;
+color:#183a2b;margin:0 0 18px">
+روش پرداخت
+</h2>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;
+gap:12px">
+
+<button type="button" disabled
+style="min-width:0;padding:16px 8px;
+border:1px solid #c9ded0;border-radius:14px;
+background:#fff;color:#24563b;
+font:inherit;opacity:1;cursor:not-allowed">
+<span aria-hidden="true" style="display:block;
+font-size:24px;margin-bottom:7px">&#x1F4B3;</span>
+<strong>ریالی</strong>
+<small style="display:block;margin-top:5px;
+color:#738578">به‌زودی</small>
+</button>
+
+<button type="button" disabled
+style="min-width:0;padding:16px 8px;
+border:1px solid #c9ded0;border-radius:14px;
+background:#fff;color:#24563b;
+font:inherit;opacity:1;cursor:not-allowed">
+<svg viewBox="0 0 24 24" width="26" height="26"
+fill="none" stroke="currentColor" stroke-width="1.8"
+stroke-linecap="round" stroke-linejoin="round"
+aria-hidden="true" style="display:block;margin:0 auto 7px">
+<rect x="3" y="6" width="18" height="15" rx="3"/>
+<path d="M3 10h18M16 15h5"/>
+</svg>
+<strong>رمزارزی</strong>
+<small style="display:block;margin-top:5px;
+color:#738578">به‌زودی</small>
+</button>
+
+</div>
+
+<p style="text-align:center;font-size:12px;
+line-height:1.9;color:#66796d;margin:16px 0 0">
+پرداخت و ثبت سفارش غیرفعال است.
+لطفاً وجهی واریز نکنید.
+</p>
+</section>
+
+    <div class="grid">
+
+      <!-- ===== BOOK 1 ===== -->
+      <section class="card">
+        <div class="book-top">
+          <img class="cover" src="wisdom-of-deylaman_cover.png" alt="The Wisdom of Deylaman Cover" />
+          <div class="book-meta">
+            <h2 class="title">The Wisdom of Deylaman</h2>
+            <p class="edition">English Edition • Official Digital Publication</p>
+            <p class="description">
+              A philosophical work exploring wisdom, identity, memory, and the relationship between human consciousness and the living landscape of Deylaman.
+            </p>
+
+            <div class="actions">
+              <a class="btn secondary" href="wisdom-of-deylaman.html">Open Book Page</a>
+              <a class="btn" href="books/wisdom-of-deylaman_sample.pdf" download>Free Sample</a>
+              <span class="btn primary" aria-disabled="true">Coming Soon — Payment Unavailable</span>
+            </div>
+
+            <div class="tiny">
+              Proposed prices (not available for purchase): ۳۴۹٬۰۰۰ تومان by Rial payment • English Edition + Crypto Payment: $12.99.
+              Sales and digital delivery are not yet available.
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- ===== BOOK 2 ===== -->
+      <section class="card">
+        <div class="book-top">
+          <img class="cover" src="img/covers/wisdom-light-7X92L_cover.png" alt="The Wisdom of Light Cover" />
+          <div class="book-meta">
+            <h2 class="title">The Wisdom of Light</h2>
+            <p class="edition">English Edition • Official Digital Publication</p>
+
+            <p class="description">
+              A philosophical work presenting the Wisdom of Light as a structure of consciousness, connecting knowledge, awareness, perception, and luminous understanding.
+            </p>
+
+            <div class="wisdom-panel">
+              <h3>Wisdom of Light</h3>
+              <p>
+                A sapiential structure of consciousness in which knowledge emerges as a luminous manifestation within the field of awareness.
+              </p>
+              <p class="wisdom-layers">
+                Five layers: Sensory • Experiential • Rational • Contemplative • Luminous Awareness
+              </p>
+              <p class="wisdom-field">
+                Field: Philosophy of Consciousness • Sapiential Philosophy • Consciousness Studies
+              </p>
+            </div>
+
+            <div class="actions">
+              <span class="btn primary" aria-disabled="true">Coming Soon — Payment Unavailable</span>
+              <span class="btn secondary">Official Publication</span>
+            </div>
+
+            <div class="tiny">
+              Proposed prices (not available for purchase): ۲۴۹٬۰۰۰ تومان by Rial payment • English Edition + Crypto Payment: $7.99.
+              Sales and digital delivery are not yet available.
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- ===== BOOK 3 ===== -->
+      <section class="card">
+        <div class="book-top">
+          <img class="cover"
+               src="img/covers/cpp-Z51M4_cover.png"
+               alt="Comprehensive Publishing Project Cover" />
+          <div class="book-meta">
+            <h2 class="title">Comprehensive Publishing Project</h2>
+            <p class="edition">English Edition • Official Digital Publication</p>
+
+            <p class="description">
+              A comprehensive framework for transforming knowledge, ideas, and creative work into structured, publishable, and commercially viable digital products.
+            </p>
+
+            <div class="actions">
+              <span class="btn disabled">Open Book Page — Available After Payment</span>
+              <span class="btn disabled">Sample — Not Available Yet</span>
+              <span class="btn primary" aria-disabled="true">Coming Soon — Payment Unavailable</span>
+            </div>
+
+            <div class="tiny">
+              Proposed prices (not available for purchase): ۲۴۹٬۰۰۰ تومان by Rial payment • English Edition + Crypto Payment: $7.99.
+              Sales and digital delivery are not yet available.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== BOOK 4 ===== -->
+      <section class="card">
+        <div class="book-top">
+          <img class="cover"
+               src="img/covers/the-power-of-simplicity.png"
+               alt="The Power of Simplicity Cover" />
+          <div class="book-meta">
+            <h2 class="title">The Power of Simplicity</h2>
+            <p class="edition">English Edition • Official Digital Publication</p>
+
+            <p class="description">
+              A philosophical work exploring simplicity as a powerful principle for clearer thinking, conscious living, and more effective action.
+            </p>
+
+            <div class="actions">
+              <span class="btn disabled">Open Book Page — Available After Payment</span>
+              <span class="btn disabled">Sample — Not Available Yet</span>
+              <span class="btn primary" aria-disabled="true">Coming Soon — Payment Unavailable</span>
+            </div>
+
+            <div class="tiny">
+              Proposed prices (not available for purchase): ۲۴۹٬۰۰۰ تومان by Rial payment • English Edition + Crypto Payment: $7.99.
+              Sales and digital delivery are not yet available.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== BOOK 5 ===== -->
+<section class="card">
+  <div class="book-top">
+    <img class="cover"
+         src="img/covers/deylaman_F29P81_cover.png"
+         alt="Hekmat-e Deylaman (Persian Edition) Cover" />
+    <div class="book-meta">
+      <h2 class="title">Hekmat-e Deylaman</h2>
+      <p class="edition">Persian Edition • Official Digital Publication</p>
+
+      <p class="description">
+        A Persian philosophical work exploring the wisdom, identity, history, and cultural consciousness of Deylaman and the ancient land of Gilan.
+      </p>
+
+      <div class="actions">
+        <span class="btn disabled">Open Book Page — Available After Payment</span>
+        <span class="btn disabled">Sample — Not Available Yet</span>
+        <span class="btn primary" aria-disabled="true">Coming Soon — Payment Unavailable</span>
+      </div>
+
+      <div class="tiny">
+        Proposed prices (not available for purchase): ۳۴۹٬۰۰۰ تومان by Rial payment • نسخه فارسی + پرداخت با رمزارز: $12.99.
+        Sales and digital delivery are not yet available.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== BOOK 6 ===== -->
+<section class="card">
+  <div class="book-top">
+    <img class="cover"
+         src="img/covers/wisdom-light-7X92L_cover.png"
+         alt="Hekmat-e Nur (Persian Edition) Cover" />
+    <div class="book-meta">
+      <h2 class="title">Hekmat-e Nur</h2>
+      <p class="edition">Persian Edition • Official Digital Publication</p>
+
+      <p class="description">
+        The foundational formulation of the Wisdom of Light: a sapiential structure of consciousness in which knowledge emerges as a luminous manifestation within the field of awareness.
+      </p>
+
+      <div class="wisdom-panel">
+        <h3>حکمت نور</h3>
+        <p>
+          ساختاری حکمی از آگاهی که در آن دانش به‌صورت تجلی نورانی در میدان آگاهی ظهور می‌کند.
+        </p>
+        <p class="wisdom-layers">
+          پنج لایه: ادراک حسی • ادراک تجربی • ادراک عقلانی • ادراک شهودی • ادراک نوری
+        </p>
+        <p class="wisdom-field">
+          حوزه: فلسفه آگاهی • فلسفه حکمی • مطالعات آگاهی
+        </p>
+      </div>
+
+      <div class="actions">
+        <span class="btn primary" aria-disabled="true">Coming Soon — Payment Unavailable</span>
+        <span class="btn secondary">Official Publication</span>
+      </div>
+
+      <div class="tiny">
+        Proposed prices (not available for purchase): ۲۴۹٬۰۰۰ تومان by Rial payment • نسخه فارسی + پرداخت با رمزارز: $7.99.
+        Sales and digital delivery are not yet available.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== BOOK 7 ===== -->
+<section class="card">
+  <div class="book-top">
+    <img class="cover"
+         src="img/covers/gilan_cover.png"
+         alt="Gilan The Ancient Land (Persian Edition) Cover" />
+    <div class="book-meta">
+      <h2 class="title">Gilan The Ancient Land</h2>
+      <p class="edition">Persian Edition • Official Digital Publication</p>
+
+      <p class="description">
+        A cultural and historical work exploring the ancient land of Gilan, its identity, heritage, landscape, and enduring civilizational memory.
+      </p>
+
+      <div class="actions">
+        <span class="btn disabled">Open Book Page — Available After Payment</span>
+        <span class="btn disabled">Sample — Not Available Yet</span>
+        <span class="btn primary" aria-disabled="true">Coming Soon — Payment Unavailable</span>
+      </div>
+
+      <div class="tiny">
+        Proposed prices (not available for purchase): ۳۴۹٬۰۰۰ تومان by Rial payment • نسخه فارسی + پرداخت با رمزارز: $12.99.
+        Sales and digital delivery are not yet available.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== BOOK 8 ===== -->
+<section class="card">
+  <div class="book-top">
+    <img class="cover"
+         src="img/covers/Engineering_Winning_Proposal_cover.jpg"
+         alt="Engineering Winning Proposal (Persian Edition) Cover" />
+    <div class="book-meta">
+      <h2 class="title">Engineering Winning Proposal</h2>
+      <p class="edition">Persian Edition • Official Digital Publication</p>
+
+      <p class="description">
+        A practical framework for designing, structuring, evaluating, and presenting winning engineering and project proposals.
+      </p>
+
+      <div class="actions">
+        <span class="btn disabled">Open Book Page — Available After Payment</span>
+        <span class="btn disabled">Sample — Not Available Yet</span>
+        <span class="btn primary" aria-disabled="true">Coming Soon — Payment Unavailable</span>
+      </div>
+
+      <div class="tiny">
+        Proposed prices (not available for purchase): ۳۴۹٬۰۰۰ تومان by Rial payment • نسخه فارسی + پرداخت با رمزارز: $12.99.
+        Sales and digital delivery are not yet available.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== BOOK 9 ===== -->
+<section class="card">
+  <div class="book-top">
+    <img class="cover"
+         src="img/covers/intellectual_architecture_cover.png"
+         alt="Intellectual Architecture (Persian Edition) Cover" />
+    <div class="book-meta">
+      <h2 class="title">Intellectual Architecture</h2>
+      <p class="edition">Persian Edition • Official Digital Publication</p>
+
+      <p class="description">
+        A conceptual framework for designing, organizing, and connecting ideas, knowledge, and intellectual structures into coherent systems.
+      </p>
+
+      <div class="actions">
+        <span class="btn disabled">Open Book Page — Available After Payment</span>
+        <span class="btn disabled">Sample — Not Available Yet</span>
+        <span class="btn primary" aria-disabled="true">Coming Soon — Payment Unavailable</span>
+      </div>
+
+      <div class="tiny">
+        Proposed prices (not available for purchase): ۳۴۹٬۰۰۰ تومان by Rial payment • نسخه فارسی + پرداخت با رمزارز: $12.99.
+        Sales and digital delivery are not yet available.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== BOOK 10 ===== -->
+<section class="card">
+  <div class="book-top">
+    <img class="cover"
+         src="img/covers/global_academic_success_map_cover.png"
+         alt="Global Academic Success Map (Persian Edition) Cover" />
+    <div class="book-meta">
+      <h2 class="title">Global Academic Success Map</h2>
+      <p class="edition">Persian Edition • Official Digital Publication</p>
+
+      <p class="description">
+        A strategic map for navigating academic development, international opportunities, knowledge growth, and long-term educational success.
+      </p>
+
+      <div class="actions">
+        <span class="btn disabled">Open Book Page — Available After Payment</span>
+        <span class="btn disabled">Sample — Not Available Yet</span>
+        <span class="btn primary" aria-disabled="true">Coming Soon — Payment Unavailable</span>
+      </div>
+
+      <div class="tiny">
+        Proposed prices (not available for purchase): ۲۴۹٬۰۰۰ تومان by Rial payment • نسخه فارسی + پرداخت با رمزارز: $7.99.
+        Sales and digital delivery are not yet available.
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+  <footer>
+    Smaily Book Store — Official International Digital Editions<br />
+    <span class="tiny">© All Rights Reserved</span><br />
+    <span class="tiny">smailybookstore.github.io</span>
+  </footer>
+
+
+
+
+</body>
+</html>

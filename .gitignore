@@ -1,0 +1,19 @@
+# Private book files
+/assets/files/*.pdf
+
+# Private orders and customer information
+/data/orders/
+/private/
+/secrets/
+
+# Backups and temporary files
+*.bak
+*.bak-*
+*.before-*
+*.tmp
+*.log
+
+# Local environment
+.env
+.env.*
+!.env.example

@@ -1,0 +1,32 @@
+{
+  "products": [
+    {
+      "id": "wisdom-of-deylaman",
+      "title": "Wisdom of Deylaman",
+      "candidate_pages": 456,
+      "status": "review",
+      "sales_enabled": false
+    },
+    {
+      "id": "power-of-simplicity",
+      "title": "The Power of Simplicity",
+      "candidate_pages": 156,
+      "status": "review",
+      "sales_enabled": false
+    },
+    {
+      "id": "gilan-ancient-land",
+      "title": "Gilan, the Ancient Land",
+      "candidate_pages": 265,
+      "status": "review",
+      "sales_enabled": false
+    },
+    {
+      "id": "wisdom-of-light",
+      "title": "The Wisdom of Light",
+      "candidate_pages": 153,
+      "status": "review",
+      "sales_enabled": false
+    }
+  ]
+}
