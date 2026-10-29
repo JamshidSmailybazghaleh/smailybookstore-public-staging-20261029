@@ -27,6 +27,18 @@
       "candidate_pages": 153,
       "status": "review",
       "sales_enabled": false
+    },
+    {
+      "id": "gilaki-language-encyclopedia",
+      "title": "Gilaki Language Global Encyclopedia",
+      "status": "review",
+      "sales_enabled": false
+    },
+    {
+      "id": "secret-of-long-life",
+      "title": "The Secret of Long Life",
+      "status": "review",
+      "sales_enabled": false
     }
   ]
 }
